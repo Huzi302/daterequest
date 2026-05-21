@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Question 🌼</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink-deep: #e8699a;
+    --pink-mid: #f4a7c3;
+    --pink-light: #fde8f1;
+    --pink-pale: #fff0f6;
+    --yellow: #f7d96b;
+    --yellow-deep: #e6c43a;
+    --white: #ffffff;
+    --text-dark: #5a2d4c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: var(--pink-pale);
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  /* Animated background fixed */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, #fce4ec 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, #f8bbd0 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 50%, #fff0f6 0%, transparent 80%);
+    animation: bgPulse 6s ease-in-out infinite alternate;
+    z-index: 0;
+  }
+
+  @keyframes bgPulse {
+    from { opacity: 1; }
+    to { opacity: 0.7; }
+  }
+
+  /* Floating daisies */
+  .daisy-field {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .daisy {
+    position: absolute;
+    animation: floatDaisy linear infinite;
+    opacity: 0;
+  }
+
+  .daisy svg { width: 100%; height: 100%; }
+
+  @keyframes floatDaisy {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.7; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ─── PAGE WRAPPER ─── */
+  .page-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px 80px;
+    gap: 0;
+  }
+
+  /* ─── LOVE BANNER (top) ─── */
+  .love-banner {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(10px);
+    border-radius: 28px 28px 0 0;
+    border: 1.5px solid rgba(244,167,195,0.4);
+    border-bottom: none;
+    padding: 36px 40px 32px;
+    text-align: center;
+    box-shadow: 0 4px 30px rgba(232,105,154,0.10);
+  }
+
+  .love-banner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--pink-mid);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    font-style: italic;
+  }
+
+  .love-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    justify-content: center;
+  }
+
+  .love-word {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+    color: var(--pink-deep);
+    font-style: italic;
+    animation: wordPulse 3s ease-in-out infinite;
+    transition: transform 0.3s;
+    cursor: default;
+  }
+
+  .love-word:hover { transform: scale(1.15) rotate(-2deg); }
+  .love-word:nth-child(odd)  { animation-delay: 0s; }
+  .love-word:nth-child(even) { animation-delay: 1.5s; }
+
+  @keyframes wordPulse {
+    0%,100% { opacity: 0.85; }
+    50%      { opacity: 1; color: #d44f87; }
+  }
+
+  /* ─── MAIN CARD ─── */
+  .card {
+    position: relative;
+    z-index: 10;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(14px);
+    border-radius: 0 0 32px 32px;
+    padding: 48px 52px 44px;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    box-shadow:
+      0 12px 50px rgba(232,105,154,0.18),
+      0 2px 12px rgba(232,105,154,0.10),
+      inset 0 1px 0 rgba(255,255,255,0.9);
+    border: 1.5px solid rgba(244,167,195,0.35);
+    border-top: none;
+    animation: cardIn 1s cubic-bezier(.34,1.56,.64,1) both;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: scale(0.7) translateY(40px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .hero-daisy {
+    margin: 0 auto 20px;
+    display: block;
+    animation: heroDaisy 8s ease-in-out infinite;
+  }
+
+  @keyframes heroDaisy {
+    0%,100% { transform: rotate(0deg) scale(1); }
+    25%     { transform: rotate(15deg) scale(1.08); }
+    75%     { transform: rotate(-10deg) scale(0.95); }
+  }
+
+  .question {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    color: var(--text-dark);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+
+  .sub {
+    font-size: 0.95rem;
+    color: var(--pink-deep);
+    letter-spacing: 0.05em;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  /* ─── BUTTONS ZONE ─── */
+  /* YES stays in flow; NO is absolutely positioned over viewport */
+  .buttons-zone {
+    position: relative;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, var(--pink-deep), #d44f87);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 44px;
+    font-size: 1.1rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(232,105,154,0.45);
+    transition: transform 0.2s, box-shadow 0.2s, font-size 0.45s cubic-bezier(.34,1.56,.64,1), padding 0.45s;
+    position: relative;
+    z-index: 5;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+  }
+
+  .btn-yes::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent);
+    border-radius: inherit;
+  }
+
+  .btn-yes:hover { transform: scale(1.07); box-shadow: 0 10px 32px rgba(232,105,154,0.55); }
+  .btn-yes:active { transform: scale(0.97); }
+
+  /* NO button — fixed on screen, moved by JS */
+  .btn-no {
+    background: white;
+    color: var(--pink-deep);
+    border: 2px solid var(--pink-mid);
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-size: 0.95rem;
+    font-family: 'Lato', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    letter-spacing: 0.03em;
+    position: fixed;
+    z-index: 50;
+    /* initial pos set by JS */
+  }
+
+  .btn-no:hover { background: var(--pink-light); border-color: var(--pink-deep); }
+
+  .no-msg {
+    font-size: 0.85rem;
+    color: #c48fa8;
+    margin-top: 16px;
+    min-height: 22px;
+    font-style: italic;
+  }
+
+  /* ─── ARROW TOOLTIP ─── */
+  .arrow-tip {
+    position: fixed;
+    z-index: 60;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    animation: arrowBounce 0.6s ease-in-out infinite alternate;
+  }
+
+  .arrow-tip.visible { opacity: 1; }
+
+  .arrow-note {
+    background: white;
+    color: var(--pink-deep);
+    border: 1.5px solid var(--pink-mid);
+    border-radius: 16px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    box-shadow: 0 4px 16px rgba(232,105,154,0.25);
+    white-space: nowrap;
+  }
+
+  .arrow-svg { filter: drop-shadow(0 2px 4px rgba(232,105,154,0.4)); }
+
+  @keyframes arrowBounce {
+    from { transform: translateY(0px); }
+    to   { transform: translateY(-8px); }
+  }
+
+  /* ─── LOVE SECTION (bottom) ─── */
+  .love-section {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(10px);
+    border-radius: 0 0 28px 28px;
+    /* This section below the card */
+    margin-top: 0;
+    border: 1.5px solid rgba(244,167,195,0.4);
+    border-top: 1px dashed rgba(244,167,195,0.5);
+    padding: 36px 40px 40px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(232,105,154,0.10);
+  }
+
+  .love-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--pink-mid);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .love-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .love-card {
+    background: var(--pink-pale);
+    border: 1px solid rgba(244,167,195,0.45);
+    border-radius: 16px;
+    padding: 14px 12px;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: default;
+  }
+
+  .love-card:hover {
+    transform: translateY(-4px) rotate(1deg);
+    box-shadow: 0 8px 24px rgba(232,105,154,0.2);
+  }
+
+  .love-card .lang {
+    font-size: 0.7rem;
+    color: var(--pink-mid);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .love-card .phrase {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--pink-deep);
+    font-style: italic;
+  }
+
+  /* ─── POPUP ─── */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(90,45,76,0.35);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .popup-overlay.active { display: flex; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .popup-box {
+    background: white;
+    border-radius: 28px;
+    padding: 52px 44px;
+    max-width: 400px;
+    width: 88vw;
+    text-align: center;
+    box-shadow: 0 20px 80px rgba(232,105,154,0.35);
+    border: 2px solid var(--pink-mid);
+    animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) both;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+    to   { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+
+  .popup-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+    animation: heartBeat 1s ease infinite;
+    display: block;
+  }
+
+  @keyframes heartBeat {
+    0%,100% { transform: scale(1); }
+    50%     { transform: scale(1.15); }
+  }
+
+  .popup-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+
+  .popup-msg {
+    color: var(--pink-deep);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  .popup-close {
+    background: linear-gradient(135deg, var(--pink-deep), #d44f87);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 40px;
+    font-size: 1rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(232,105,154,0.4);
+    transition: transform 0.2s;
+  }
+
+  .popup-close:hover { transform: scale(1.05); }
+
+  /* ─── CONFETTI & HEARTS ─── */
+  .confetti-piece {
+    position: fixed;
+    top: -20px;
+    border-radius: 2px;
+    animation: confettiFall linear forwards;
+    z-index: 300;
+  }
+
+  @keyframes confettiFall {
+    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  .heart-pop {
+    position: fixed;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: heartFloat 1.4s ease-out forwards;
+    z-index: 300;
+  }
+
+  @keyframes heartFloat {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.5); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating daisies background -->
+<div class="daisy-field" id="daisyField"></div>
+
+<!-- Arrow tip (follows NO button pointing to YES) -->
+<div class="arrow-tip" id="arrowTip">
+  <div class="arrow-note" id="arrowNote">Press YES instead 🌸</div>
+  <svg class="arrow-svg" width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 0 Q18 24 16 36" stroke="#e8699a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M16 36 L8 26 M16 36 L24 26" stroke="#e8699a" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<!-- NO button (fixed, moves around) -->
+<button class="btn-no" id="btnNo" onclick="onNo()">No 😶</button>
+
+<!-- PAGE WRAPPER (scrollable) -->
+<div class="page-wrapper">
+
+  <!-- LOVE BANNER TOP -->
+  <div class="love-banner">
+    <h2>For my Maha 🌼</h2>
+    <div class="love-words" id="loveWords"></div>
+  </div>
+
+  <!-- MAIN CARD -->
+  <div class="card">
+    <div class="hero-daisy">
+      <svg width="88" height="88" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(45,45)">
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(40)"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(80)"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(120)"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(160)"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(200)"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(240)"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(280)"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="14" fill="#fff5c2" stroke="#f7d96b" stroke-width="1.5" transform="rotate(320)"/>
+          <circle cx="0" cy="0" r="15" fill="#f7d96b" stroke="#e6c43a" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="9" fill="#e6c43a" opacity="0.6"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="question">Will you go on a date with me? 🌸</div>
+    <div class="sub">— just say yes, I dare you 💕</div>
+
+    <div class="buttons-zone">
+      <button class="btn-yes" id="btnYes" onclick="onYes()">Yes! 🌼</button>
+    </div>
+
+    <div class="no-msg" id="noMsg"></div>
+  </div>
+
+  <!-- LOVE SECTION BOTTOM -->
+  <div class="love-section">
+    <h3>I love you, Maha — in every language 💖</h3>
+    <div class="love-grid" id="loveGrid"></div>
+  </div>
+
+</div>
+
+<!-- Popup -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <span class="popup-emoji">💖</span>
+    <div class="popup-title">I knew it!</div>
+    <div class="popup-msg">
+      I knew you can't refuse me 😏<br>
+      Get ready for the most beautiful date ever! 🌼🌸✨
+    </div>
+    <button class="popup-close" onclick="closePopup()">Can't wait! 💕</button>
+  </div>
+</div>
+
+<script>
+  // ── I LOVE YOU MAHA in many languages ──
+  const loveData = [
+    { lang: "Urdu",       phrase: "میں تم سے محبت کرتا ہوں مہا" },
+    { lang: "English",    phrase: "I love you, Maha" },
+    { lang: "Arabic",     phrase: "أحبكِ يا مها" },
+    { lang: "French",     phrase: "Je t'aime, Maha" },
+    { lang: "Spanish",    phrase: "Te amo, Maha" },
+    { lang: "Italian",    phrase: "Ti amo, Maha" },
+    { lang: "Turkish",    phrase: "Seni seviyorum Maha" },
+    { lang: "Persian",    phrase: "دوستت دارم ماها" },
+    { lang: "German",     phrase: "Ich liebe dich, Maha" },
+    { lang: "Japanese",   phrase: "愛してる、マハ" },
+    { lang: "Korean",     phrase: "사랑해, 마하" },
+    { lang: "Hindi",      phrase: "मैं तुमसे प्यार करता हूँ माहा" },
+    { lang: "Portuguese", phrase: "Eu te amo, Maha" },
+    { lang: "Russian",    phrase: "Я тебя люблю, Маха" },
+    { lang: "Greek",      phrase: "Σ'αγαπώ, Μάχα" },
+    { lang: "Swedish",    phrase: "Jag älskar dig, Maha" },
+    { lang: "Swahili",    phrase: "Nakupenda, Maha" },
+    { lang: "Chinese",    phrase: "我爱你，玛哈" },
+  ];
+
+  // Populate love grid
+  const grid = document.getElementById('loveGrid');
+  loveData.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'love-card';
+    card.innerHTML = `<div class="lang">${d.lang}</div><div class="phrase">${d.phrase}</div>`;
+    grid.appendChild(card);
+  });
+
+  // Populate top scrolling love words (just the phrases)
+  const wordsEl = document.getElementById('loveWords');
+  loveData.slice(0, 12).forEach(d => {
+    const span = document.createElement('span');
+    span.className = 'love-word';
+    span.textContent = d.phrase;
+    wordsEl.appendChild(span);
+  });
+
+  // ── NO BUTTON LOGIC ──
+  let noCount = 0;
+  let yesFontSize = 1.1;
+  let yesPadV = 16, yesPadH = 44;
+
+  const arrowNotes = [
+    "Press YES instead 🌸",
+    "That's the wrong button, silly 🥺",
+    "YES is right there! ➡️",
+    "Come on Maha… 💕",
+    "The big pink one! 👇",
+    "One click and I'm the happiest 🌼",
+    "Stop running from love! 😂",
+    "The YES button misses you 💖",
+    "Just one little YES… 🙏",
+    "Okayyyy I'll keep waiting 😅",
+  ];
+
+  const noMessages = [
+    "Are you sure? 🥺",
+    "That's not the right button…",
+    "Try the other one 👀",
+    "YES keeps getting bigger for a reason!",
+    "Come onnnn 🌸",
+    "I'll wait… 💕",
+    "Wrong again! 😅",
+    "Okay now I'm begging 😂",
+    "The YES button is basically a billboard now!",
+    "I'm not giving up! 💖",
+  ];
+
+  const btnNo   = document.getElementById('btnNo');
+  const btnYes  = document.getElementById('btnYes');
+  const arrowTip= document.getElementById('arrowTip');
+  const arrowNote = document.getElementById('arrowNote');
+
+  // Place NO button initially at a fixed viewport position (bottom-right area)
+  function initNoPos() {
+    const nW = btnNo.offsetWidth  || 100;
+    const nH = btnNo.offsetHeight || 44;
+    btnNo.style.left = (window.innerWidth  - nW - 40) + 'px';
+    btnNo.style.top  = (window.innerHeight - nH - 60) + 'px';
+  }
+
+  window.addEventListener('load', () => { setTimeout(initNoPos, 400); });
+
+  function getRandomNoPos() {
+    const margin = 50;
+    const nW = btnNo.offsetWidth  || 100;
+    const nH = btnNo.offsetHeight || 44;
+    // Use viewport dimensions only — fixed positioning ignores scroll
+    const maxX = window.innerWidth  - nW - margin;
+    const maxY = window.innerHeight - nH - margin;
+    const x = margin + Math.random() * (maxX - margin);
+    const y = margin + Math.random() * (maxY - margin);
+    return { x, y };
+  }
+
+  let arrowTimer = null;
+
+  function onNo() {
+    noCount++;
+
+    // Grow YES button
+    yesFontSize += 0.2;
+    yesPadV += 5;
+    yesPadH += 9;
+    btnYes.style.fontSize = yesFontSize + 'rem';
+    btnYes.style.padding  = yesPadV + 'px ' + yesPadH + 'px';
+
+    // Move NO button to random spot
+    const pos = getRandomNoPos();
+    btnNo.style.left = pos.x + 'px';
+    btnNo.style.top  = pos.y + 'px';
+
+    // Show arrow near YES button with cute note
+    const note = arrowNotes[Math.min(noCount - 1, arrowNotes.length - 1)];
+    arrowNote.textContent = note;
+    positionArrowAtYes();
+    arrowTip.classList.add('visible');
+
+    // Hide arrow after 2.8s
+    clearTimeout(arrowTimer);
+    arrowTimer = setTimeout(() => arrowTip.classList.remove('visible'), 2800);
+
+    // Update message
+    document.getElementById('noMsg').textContent =
+      noMessages[Math.min(noCount - 1, noMessages.length - 1)];
+  }
+
+  function positionArrowAtYes() {
+    // getBoundingClientRect gives viewport coords — correct for position:fixed
+    const yesRect = btnYes.getBoundingClientRect();
+    const yesCx  = yesRect.left + yesRect.width / 2;
+    const yesTop = yesRect.top;
+
+    arrowTip.style.left      = (yesCx - 16) + 'px';
+    arrowTip.style.top       = (yesTop - 115) + 'px';
+    arrowTip.style.transform = 'none';
+  }
+
+  // ── YES BUTTON ──
+  function onYes() {
+    const rect = btnYes.getBoundingClientRect();
+    const cx = rect.left + rect.width  / 2;
+    const cy = rect.top  + rect.height / 2;
+    const emojis = ['💖','💕','🌸','🌼','💗','✨'];
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        const h = document.createElement('div');
+        h.className = 'heart-pop';
+        h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        h.style.left = (cx + (Math.random()-0.5)*100) + 'px';
+        h.style.top  = cy + 'px';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 1600);
+      }, i * 60);
+    }
+    launchConfetti();
+    arrowTip.classList.remove('visible');
+    setTimeout(() => document.getElementById('popup').classList.add('active'), 300);
+  }
+
+  function closePopup() {
+    document.getElementById('popup').classList.remove('active');
+    launchConfetti();
+  }
+
+  function launchConfetti() {
+    const colors = ['#e8699a','#f7d96b','#f4a7c3','#fff','#d44f87','#ffe066'];
+    for (let i = 0; i < 60; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.width  = (Math.random() * 10 + 6) + 'px';
+        c.style.height = (Math.random() * 10 + 6) + 'px';
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        c.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+        c.style.animationDelay    = Math.random() * 0.4 + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4000);
+      }, i * 16);
+    }
+  }
+
+  // ── FLOATING DAISIES ──
+  function makeDaisy(size) {
+    const petalColor = Math.random() > 0.5 ? '#fff5c2' : '#fde8f1';
+    return `<svg width="${size}" height="${size}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(30,30)">
+        ${[0,45,90,135,180,225,270,315].map(a =>
+          `<ellipse cx="0" cy="-18" rx="5" ry="10" fill="${petalColor}" opacity="0.85" transform="rotate(${a})"/>`
+        ).join('')}
+        <circle cx="0" cy="0" r="10" fill="#f7d96b" opacity="0.9"/>
+      </g></svg>`;
+  }
+
+  const field = document.getElementById('daisyField');
+  for (let i = 0; i < 20; i++) {
+    const d = document.createElement('div');
+    d.className = 'daisy';
+    const size = Math.random() * 36 + 18;
+    d.style.width  = size + 'px';
+    d.style.height = size + 'px';
+    d.style.left   = Math.random() * 100 + 'vw';
+    d.style.animationDuration = (Math.random() * 12 + 10) + 's';
+    d.style.animationDelay    = (Math.random() * 16) + 's';
+    d.innerHTML = makeDaisy(size);
+    field.appendChild(d);
+  }
+</script>
+</body>
+</html>
